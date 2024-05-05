@@ -13,7 +13,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background: ${(props) => props.theme["background"   ]};
+    background: ${(props) => props.theme["background"]};
     color: ${(props) => props.theme['base-text']};
     -webkit-font-smoothing: antialiased;
   }
@@ -21,6 +21,28 @@ export const GlobalStyle = createGlobalStyle`
   body, input, textarea, button {
     font-family: "Baloo 2", sans-serif;
     font-weight: 400;
-    font-size: 1rem;
+    font-size: 1.6rem;
+  }
+
+  button, input {
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 62.5%;
+
+    @media (max-width: 960px) {
+      font-size: 58.5%;
+    }
+
+    @media (max-width: 782px) {
+      font-size: 54.6%;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 44%;
+    }
   }
 `
