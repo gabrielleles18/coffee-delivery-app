@@ -4,7 +4,18 @@ import {Minus, Plus, ShoppingCart} from "phosphor-react";
 import caffe from "../../assets/arabe.svg";
 import {useState} from "react";
 
-export function Product() {
+interface ProductProps {
+    product: {
+        id: number;
+        name: string;
+        description: string;
+        price: number;
+        tags: string[];
+        image: string;
+    }
+}
+
+export function Product({product}: ProductProps) {
     const [counterProduct, setCounterProduct] = useState(0);
 
     function increment() {
@@ -17,6 +28,10 @@ export function Product() {
         }
     }
 
+    function formatPrice(price: number) {
+        return new Intl.NumberFormat('pt-BR', {style: 'decimal', minimumFractionDigits: 2}).format(price);
+    }
+
     return (
         <ProductContainer>
             <img
@@ -25,26 +40,25 @@ export function Product() {
                 alt=""
             />
             <div className="tags">
-                <div className="tag">Tradicional</div>
-                <div className="tag">com leite</div>
+                {product.tags.map(tag => (
+                    <div className="tag">{tag}</div>
+                ))}
             </div>
-            <h3>Capuccino</h3>
-            <p className='resume'>
-                Uma dose de café expresso com o dobro de leite e espuma cremosa
-            </p>
+            <h3>{product.name}</h3>
+            <p className='resume'>{product.description} </p>
 
             <Actions>
                 <div className='price'>
                     R$
-                    <b>5,00</b>
+                    <b>{formatPrice(product.price)}</b>
                 </div>
                 <div className="counter">
                     <button type="button" onClick={decrement}>
-                        <Minus size={14} />
+                        <Minus size={14}/>
                     </button>
                     <span>{counterProduct}</span>
                     <button type="button" onClick={increment}>
-                        <Plus size={14} />
+                        <Plus size={14}/>
                     </button>
                 </div>
 

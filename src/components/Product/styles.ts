@@ -44,7 +44,7 @@ export const ProductContainer = styled.div`
     line-height: 130%;
     font-size: 14px;
     margin: 0.8rem 0 3rem 0;
-
+    flex: 1;
   }
 `;
 
