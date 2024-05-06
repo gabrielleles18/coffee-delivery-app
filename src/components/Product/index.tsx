@@ -1,8 +1,8 @@
 import {Actions, ProductContainer} from "./styles.ts";
 import {defaultTheme} from "../../styles/themes/default.ts";
-import {Minus, Plus, ShoppingCart} from "phosphor-react";
+import {ShoppingCart} from "phosphor-react";
 import caffe from "../../assets/arabe.svg";
-import {useState} from "react";
+import {Counter} from "../Counter";
 
 interface ProductProps {
     product: {
@@ -16,17 +16,6 @@ interface ProductProps {
 }
 
 export function Product({product}: ProductProps) {
-    const [counterProduct, setCounterProduct] = useState(0);
-
-    function increment() {
-        setCounterProduct(counterProduct + 1);
-    }
-
-    function decrement() {
-        if (counterProduct > 0) {
-            setCounterProduct(counterProduct - 1);
-        }
-    }
 
     function formatPrice(price: number) {
         return new Intl.NumberFormat('pt-BR', {style: 'decimal', minimumFractionDigits: 2}).format(price);
@@ -52,15 +41,8 @@ export function Product({product}: ProductProps) {
                     R$
                     <b>{formatPrice(product.price)}</b>
                 </div>
-                <div className="counter">
-                    <button type="button" onClick={decrement}>
-                        <Minus size={14}/>
-                    </button>
-                    <span>{counterProduct}</span>
-                    <button type="button" onClick={increment}>
-                        <Plus size={14}/>
-                    </button>
-                </div>
+
+                <Counter/>
 
                 <button className='cart-add'>
                     <ShoppingCart

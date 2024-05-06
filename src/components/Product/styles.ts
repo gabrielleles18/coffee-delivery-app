@@ -70,39 +70,6 @@ export const Actions = styled.div`
     }
   }
 
-  .counter {
-    min-width: 72px;
-    min-height: 38px;
-    display: flex;
-    align-items: center;
-    border-radius: 6px;
-    background-color: ${({theme}) => theme['base-button']};
-    padding: 0 5px;
-    justify-content: space-between;
-
-    span {
-      padding: 0 3px;
-      font-size: 16px;
-      color: ${({theme}) => theme['base-title']};
-    }
-
-    button {
-      display: flex;
-      color: ${({theme}) => theme['purple']};
-      padding: 3px;
-      cursor: pointer;
-      background-color: transparent;
-
-      &:hover {
-        background-color: transparent;
-      }
-
-      &:focus {
-        box-shadow: none;
-      }
-    }
-  }
-
   .cart-add {
     width: 38px;
     height: 38px;
