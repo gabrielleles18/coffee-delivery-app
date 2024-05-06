@@ -3,11 +3,11 @@ import React from "react";
 
 interface ButtonProps {
     title: string;
+    typeCustom: 'slim' | 'bold';
     icon?: React.ReactNode;
-    typeCustom?: 'slim' | 'bold';
 }
 
-export function Button({title, icon, typeCustom = 'bold', ...props}: ButtonProps) {
+export function Button({title, icon, ...props}: ButtonProps) {
     return (
         <ButtonContainer {...props}>
             {icon && icon}

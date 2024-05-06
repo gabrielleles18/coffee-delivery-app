@@ -1,7 +1,6 @@
 import {Actions, ProductContainer} from "./styles.ts";
 import {defaultTheme} from "../../styles/themes/default.ts";
 import {ShoppingCart} from "phosphor-react";
-import caffe from "../../assets/arabe.svg";
 import {Counter} from "../Counter";
 
 interface ProductProps {
@@ -25,7 +24,7 @@ export function Product({product}: ProductProps) {
         <ProductContainer>
             <img
                 className='product-image'
-                src={caffe}
+                src={product.image}
                 alt=""
             />
             <div className="tags">
@@ -42,7 +41,7 @@ export function Product({product}: ProductProps) {
                     <b>{formatPrice(product.price)}</b>
                 </div>
 
-                <Counter/>
+                <Counter type='bold'/>
 
                 <button className='cart-add'>
                     <ShoppingCart
