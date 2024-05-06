@@ -7,21 +7,31 @@ import {Button} from "../../components/Button";
 import {Counter} from "../../components/Counter";
 
 export function Checkout() {
-    const products = [{
+    let totalPriceProducts = 0;
+    let deliveryPrice = 3.50;
+
+    const productsInCart = [{
         id: 1,
         name: 'Mocaccino',
         description: 'Bebida feita com chocolate dissolvido no leite quente e café',
-        price: 5.90,
+        price: 5.00,
         tags: ['coado', 'forte'],
-        image: 'http://localhost:5173/expresso.svg'
+        image: 'http://localhost:5173/expresso.svg',
+        quantity: 2
     }, {
         id: 2,
         name: 'Café do dia',
         description: 'Café fresquinho coado na hora',
-        price: 0.60,
+        price: 1.00,
         tags: ['coado', 'forte'],
-        image: 'http://localhost:5173/havaiano.svg'
+        image: 'http://localhost:5173/havaiano.svg',
+        quantity: 2
     }];
+
+
+    function formatPrice(price: number) {
+        return new Intl.NumberFormat('pt-BR', {style: 'decimal', minimumFractionDigits: 2}).format(price);
+    }
 
     return (
         <CheckoutContainer>
@@ -40,7 +50,6 @@ export function Checkout() {
                             />
                         }
                     />
-
                     <Form/>
                 </div>
 
@@ -79,7 +88,10 @@ export function Checkout() {
                 <h3>Cafés selecionados</h3>
 
                 <div className='checkout-prod card-base'>
-                    {products.map((product, index) => {
+                    {productsInCart.map((product, index) => {
+                        const price = product.quantity * product.price;
+                        totalPriceProducts = totalPriceProducts + price;
+
                         return (
                             <>
                                 {index > 0 && <hr/>}
@@ -102,7 +114,7 @@ export function Checkout() {
                                         </div>
                                     </div>
                                     <div className='price'>
-                                        R$ {product.price}
+                                        R$ {formatPrice(price)}
                                     </div>
                                 </div>
                             </>
@@ -112,16 +124,16 @@ export function Checkout() {
                     <SidebarSubtotal className='amount-products'>
                         <div className='row'>
                             <span>Total de itens</span>
-                            <span>R$ 29,70</span>
+                            <span>R$ {formatPrice(totalPriceProducts)}</span>
                         </div>
                         <div className='row'>
                             <span>Entrega</span>
-                            <span>R$ 3,50</span>
+                            <span>R$ {formatPrice(deliveryPrice)}</span>
                         </div>
 
                         <div className='row'>
                             <span><b>Total</b></span>
-                            <span><b>R$ 33,20</b></span>
+                            <span><b>R$ {formatPrice(totalPriceProducts + deliveryPrice)}</b></span>
                         </div>
 
                         <button type='submit'>confirmar pedido</button>

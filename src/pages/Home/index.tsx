@@ -7,7 +7,8 @@ import {Product} from "../../components/Product";
 
 export function Home() {
 
-    const products = [{
+    const products = [
+        {
         id: 1,
         name: 'Mocaccino',
         description: 'Bebida feita com chocolate dissolvido no leite quente e café',
