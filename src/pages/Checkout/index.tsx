@@ -32,7 +32,8 @@ export function Checkout() {
     }
 
     function handleSetAddressToDelivery(data: NewFormDataProps) {
-        localStorage.setItem('myData', JSON.stringify(data));
+        localStorage.setItem('@coffee-delivery:address-state-1.0.0', JSON.stringify(data));
+        localStorage.setItem('@coffee-delivery:cart-state-1.0.0', JSON.stringify(cart));
 
         navigate("/delivery");
     }

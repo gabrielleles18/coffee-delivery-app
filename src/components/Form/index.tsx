@@ -1,11 +1,29 @@
 import {FormContainer} from "./styles.ts";
 import {useFormContext} from "react-hook-form";
+import {useEffect} from "react";
 
 export function Form() {
     const {
         register,
+        setValue,
         formState: {errors}
     } = useFormContext();
+
+    useEffect(() => {
+        const storedStateAsJSON = localStorage.getItem(
+            '@coffee-delivery:address-state-1.0.0',
+        )
+        // @ts-ignore
+        const storedState = JSON.parse(storedStateAsJSON);
+
+        setValue('cep', storedState.cep);
+        setValue('street', storedState.street);
+        setValue('number', storedState.number);
+        setValue('complement', storedState.complement);
+        setValue('neighborhood', storedState.neighborhood);
+        setValue('city', storedState.city);
+        setValue('state', storedState.state);
+    }, [setValue]);
 
     return (
         <FormContainer>
@@ -16,7 +34,7 @@ export function Form() {
                     className='cep-input'
                     {...register('cep', {required: true})}
                 />
-                {errors.cep && <span>This field is required</span>}
+                {errors.cep && <span>Informe o CPF</span>}
             </div>
 
             <div className='row row-street'>
@@ -26,7 +44,7 @@ export function Form() {
                     className='street-input'
                     {...register('street', {required: true})}
                 />
-                {errors.street && <span>This field is required</span>}
+                {errors.street && <span>Informe a Rua</span>}
             </div>
 
             <div className='row row-number'>
@@ -36,7 +54,7 @@ export function Form() {
                     className='number-input'
                     {...register('number', {required: true})}
                 />
-                {errors.number && <span>This field is required</span>}
+                {errors.number && <span>Informe o número</span>}
             </div>
 
             <div className='row row-complement'>
@@ -55,7 +73,7 @@ export function Form() {
                     className='neighborhood-input'
                     {...register('neighborhood', {required: true})}
                 />
-                {errors.neighborhood && <span>This field is required</span>}
+                {errors.neighborhood && <span>Informe o bairro</span>}
             </div>
 
             <div className='row row-city'>
@@ -65,7 +83,7 @@ export function Form() {
                     className='city-input'
                     {...register('city', {required: true})}
                 />
-                {errors.city && <span>This field is required</span>}
+                {errors.city && <span>Informe a cidade</span>}
             </div>
 
             <div className='row row-state'>

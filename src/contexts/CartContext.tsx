@@ -21,7 +21,12 @@ export interface CartContextType {
 export const CartContext = createContext<CartContextType>({} as CartContextType);
 
 export function CartContextProvider({children}: { children: React.ReactNode }) {
-    const [cart, setCart] = useState<CartItemType[]>([]);
+    const storedStateAsJSON = localStorage.getItem(
+        '@coffee-delivery:cart-state-1.0.0',
+    );
+    const storedState = JSON.parse(storedStateAsJSON);
+
+    const [cart, setCart] = useState<CartItemType[]>(storedState ?? []);
 
     function handleAddToCart(clickedItem: CartItemType) {
         setCart(prev => {
