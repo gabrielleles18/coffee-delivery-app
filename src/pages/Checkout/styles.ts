@@ -1,11 +1,14 @@
 import styled from "styled-components";
 
 export const CheckoutContainer = styled.div`
-    width: 1120px;
-    margin: 4rem auto 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 450px;
-    gap: 3.2rem;
+
+    form {
+        width: 1120px;
+        margin: 4rem auto 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 450px;
+        gap: 3.2rem;
+    }
 
     .card-base {
         padding: 4rem;
@@ -96,27 +99,10 @@ export const SidebarSubtotal = styled.div`
         margin-bottom: 1.2rem;
 
         color: ${({theme}) => theme['base-text']};
-        font: 14px;
+        font-size: 14px;
 
         b {
             font-size: 20px;
         }
-    }
-
-    button {
-        width: 100%;
-        min-height: 46px;
-        border-radius: 6px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        font-weight: bold;
-        background-color: ${({theme}) => theme['yellow']};
-        margin-top: 2.4rem;
-
-        text-transform: uppercase;
-        color: ${({theme}) => theme['white']};
-        cursor: pointer;
     }
 `;
