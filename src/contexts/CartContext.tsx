@@ -5,27 +5,69 @@ interface CartItemType {
     name: string;
     description: string;
     price: number;
-    tags: object[];
-    image: string
+    tags: string[];
+    image: string,
+    amount?: number;
 }
 
 export interface CartContextType {
     cart: CartItemType[];
-    addToCart: (clickedItem: CartItemType) => void;
-    removeFromCart: (id: number) => void;
+    handleAddToCart: (clickedItem: CartItemType) => void;
+    handleRemoveFromCart: (id: number) => void;
+    handleAddAmount: (id: number) => void;
+    handleRemoveAmount: (id: number) => void;
 }
 
 export const CartContext = createContext<CartContextType>({} as CartContextType);
 
 export function CartContextProvider({children}: { children: React.ReactNode }) {
     const [cart, setCart] = useState<CartItemType[]>([]);
-    const [addToCart, setToAddCart] = useState<CartItemType[]>([]);
-    const [removeFromCart, setRemoveFromCart] = useState<number>(0);
 
+    function handleAddToCart(clickedItem: CartItemType) {
+        setCart(prev => {
+            if (prev.some(item => item.id === clickedItem.id)) {
+                return prev.map(item => item.id === clickedItem.id
+                    ? {...item, amount: item.amount! + 1}
+                    : item
+                )
+            } else {
+                return [...prev, {...clickedItem}]
+            }
+        })
+    }
 
+    function handleRemoveFromCart(id: number) {
+        setCart(prev => {
+            return prev.filter(item => item.id !== id)
+        })
+    }
+
+    function handleAddAmount(id: number) {
+        setCart(prev => {
+            return prev.map(item => item.id === id
+                ? {...item, amount: item.amount! + 1}
+                : item
+            )
+        })
+    }
+
+    function handleRemoveAmount(id: number) {
+        setCart(prev => {
+            return prev.map(item => item.id === id
+                ? {...item, amount: item.amount! - 1}
+                : item
+            )
+        })
+    }
 
     return (
-        <CartContext.Provider value={{cart, addToCart, removeFromCart}}>
+        <CartContext.Provider value={{
+            cart,
+            handleAddToCart,
+            handleRemoveFromCart,
+            handleAddAmount,
+            handleRemoveAmount
+        }}>
             {children}
         </CartContext.Provider>
     )

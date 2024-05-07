@@ -1,15 +1,15 @@
 import {ButtonContainer} from './styles.ts';
 import React from "react";
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>{
     title: string;
-    typeCustom: 'slim' | 'bold';
+    typeCustom?: 'bold' | 'slim';
     icon?: React.ReactNode;
 }
 
-export function Button({title, icon, ...props}: ButtonProps) {
+export function Button({title, icon, ...rest}: ButtonProps) {
     return (
-        <ButtonContainer {...props}>
+        <ButtonContainer {...rest}>
             {icon && icon}
             {title}
         </ButtonContainer>

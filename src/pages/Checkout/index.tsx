@@ -5,28 +5,14 @@ import {Form} from "../../components/Form";
 import {TitleDetails} from "../../components/TitleDetails";
 import {Button} from "../../components/Button";
 import {Counter} from "../../components/Counter";
+import {useContext} from "react";
+import {CartContext} from "../../contexts/CartContext.tsx";
 
 export function Checkout() {
+    const {cart, handleRemoveFromCart} = useContext(CartContext);
+
     let totalPriceProducts = 0;
     let deliveryPrice = 3.50;
-
-    const productsInCart = [{
-        id: 1,
-        name: 'Mocaccino',
-        description: 'Bebida feita com chocolate dissolvido no leite quente e café',
-        price: 5.00,
-        tags: ['coado', 'forte'],
-        image: 'http://localhost:5173/expresso.svg',
-        quantity: 2
-    }, {
-        id: 2,
-        name: 'Café do dia',
-        description: 'Café fresquinho coado na hora',
-        price: 1.00,
-        tags: ['coado', 'forte'],
-        image: 'http://localhost:5173/havaiano.svg',
-        quantity: 2
-    }];
 
 
     function formatPrice(price: number) {
@@ -88,36 +74,38 @@ export function Checkout() {
                 <h3>Cafés selecionados</h3>
 
                 <div className='checkout-prod card-base'>
-                    {productsInCart.map((product, index) => {
-                        const price = product.quantity * product.price;
+                    {cart?.map((product) => {
+                        const price = product.amount ? product.amount * product.price : 0;
                         totalPriceProducts = totalPriceProducts + price;
 
                         return (
-                            <>
-                                {index > 0 && <hr/>}
-                                <div className='prod' key={product.id}>
-                                    <img src={product.image} alt={product.name} className='img'/>
-                                    <div className='info'>
-                                        <h4>{product.name}</h4>
-                                        <div className='action'>
-                                            <Counter type='slim'/>
-                                            <Button
-                                                title={'Remover'}
-                                                typeCustom='slim'
-                                                icon={
-                                                    <Trash
-                                                        size={16}
-                                                        color={defaultTheme['purple']}
-                                                    />
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className='price'>
-                                        R$ {formatPrice(price)}
+                            <div className='prod' key={product.id}>
+                                <img src={product.image} alt={product.name} className='img'/>
+                                <div className='info'>
+                                    <h4>{product.name}</h4>
+                                    <div className='action'>
+                                        <Counter
+                                            type='slim'
+                                            productId={product.id}
+                                            productAmount={product.amount ? product.amount : 0}
+                                        />
+                                        <Button
+                                            onClick={() => handleRemoveFromCart(product.id)}
+                                            title={'Remover'}
+                                            typeCustom='slim'
+                                            icon={
+                                                <Trash
+                                                    size={16}
+                                                    color={defaultTheme['purple']}
+                                                />
+                                            }
+                                        />
                                     </div>
                                 </div>
-                            </>
+                                <div className='price'>
+                                    R$ {formatPrice(price)}
+                                </div>
+                            </div>
                         )
                     })}
 

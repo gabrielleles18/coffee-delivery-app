@@ -1,31 +1,31 @@
 import {Minus, Plus} from "phosphor-react";
 import {CounterContainer} from "./styles.ts";
-import {useState} from "react";
+import {useContext} from "react";
+import {CartContext} from "../../contexts/CartContext.tsx";
 
 interface CounterProps {
     type: 'slim' | 'bold';
+    productId: number;
+    productAmount: number;
 }
 
-export function Counter({type}: CounterProps) {
-    const [counter, setCounter] = useState(0);
-
-    function increment() {
-        setCounter(counter + 1);
-    }
-
-    function decrement() {
-        if (counter > 0) {
-            setCounter(counter - 1);
-        }
-    }
+export function Counter({type, productId, productAmount}: CounterProps) {
+    const {handleAddAmount, handleRemoveAmount} = useContext(CartContext);
 
     return (
         <CounterContainer type={type}>
-            <button type="button" onClick={decrement}>
+            <button
+                disabled={productAmount == 0}
+                type="button"
+                onClick={() => {
+                    if (productAmount > 0) {
+                        handleRemoveAmount(productId);
+                    }
+                }}>
                 <Minus size={14}/>
             </button>
-            <span>{counter}</span>
-            <button type="button" onClick={increment}>
+            <span>{productAmount ?? 0}</span>
+            <button type="button" onClick={() => handleAddAmount(productId)}>
                 <Plus size={14}/>
             </button>
         </CounterContainer>
