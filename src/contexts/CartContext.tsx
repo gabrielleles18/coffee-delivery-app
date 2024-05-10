@@ -1,4 +1,4 @@
-import React, {createContext, useState} from "react";
+import React, {createContext, useReducer, useState} from "react";
 
 interface CartItemType {
     id: number;
@@ -26,43 +26,77 @@ export function CartContextProvider({children}: { children: React.ReactNode }) {
     );
     const storedState = JSON.parse(storedStateAsJSON);
 
-    const [cart, setCart] = useState<CartItemType[]>(storedState ?? []);
+    console.log(storedState);
 
-    function handleAddToCart(clickedItem: CartItemType) {
-        setCart(prev => {
-            if (prev.some(item => item.id === clickedItem.id)) {
-                return prev.map(item => item.id === clickedItem.id
+    const [cart, dispatch] = useReducer((state: CartItemType[], action: any) => {
+
+        if (action.type === 'ADD_TO_CART') {
+            const {clickedItem} = action.payload;
+            if (state.some(item => item.id === clickedItem.id)) {
+                return state.map(item => item.id === clickedItem.id
                     ? {...item, amount: item.amount! + 1}
                     : item
                 )
             } else {
-                return [...prev, {...clickedItem}]
+                return [...state, {...clickedItem}]
             }
-        })
-    }
+        }
 
-    function handleRemoveFromCart(id: number) {
-        setCart(prev => {
-            return prev.filter(item => item.id !== id)
-        })
-    }
+        if (action.type === 'REMOVE_FROM_CART') {
+            return state.filter(item => item.id !== action.payload.id)
+        }
 
-    function handleAddAmount(id: number) {
-        setCart(prev => {
-            return prev.map(item => item.id === id
+        if (action.type === 'ADD_AMOUNT') {
+            return state.map(item => item.id === action.payload.id
                 ? {...item, amount: item.amount! + 1}
                 : item
             )
-        })
-    }
+        }
 
-    function handleRemoveAmount(id: number) {
-        setCart(prev => {
-            return prev.map(item => item.id === id
+        if (action.type === 'REMOVE_AMOUNT') {
+            return state.map(item => item.id === action.payload.id
                 ? {...item, amount: item.amount! - 1}
                 : item
             )
-        })
+        }
+
+        return state
+    }, []);
+
+    function handleAddToCart(clickedItem: CartItemType) {
+        dispatch({
+            type: 'ADD_TO_CART',
+            payload: {
+                clickedItem
+            },
+        });
+    }
+
+    function handleRemoveFromCart(id: number) {
+        dispatch({
+            type: 'REMOVE_FROM_CART',
+            payload: {
+                id
+            },
+        });
+    }
+
+    function handleAddAmount(id: number) {
+        dispatch({
+            type: 'ADD_AMOUNT',
+            payload: {
+                id
+            },
+        });
+    }
+
+    function handleRemoveAmount(id: number) {
+        dispatch({
+            type: 'REMOVE_AMOUNT',
+            payload: {
+                id
+            },
+        });
     }
 
     return (

@@ -16,6 +16,10 @@ export function Form() {
         // @ts-ignore
         const storedState = JSON.parse(storedStateAsJSON);
 
+        if  (!storedState) {
+            return;
+        }
+
         setValue('cep', storedState.cep);
         setValue('street', storedState.street);
         setValue('number', storedState.number);
